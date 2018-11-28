@@ -10,10 +10,8 @@ import com.tj24.easywifi.wifi.WifiActivity;
 import com.tj24.easywifi.wifi.WifiUtil;
 
 public class WifiConnectActivity extends WifiActivity {
-    String ssid = "AndroidAP_1579";
-    String pwd = "12345678";
-
-
+    String ssid = "";
+    String pwd = "";
     EditText etSsid;
     EditText etPwd;
     Button btnConnect;
@@ -34,7 +32,6 @@ public class WifiConnectActivity extends WifiActivity {
             }
         });
     }
-
     @Override
     public void onConnectWifiSucess() {
         Toast.makeText(this,"连接成功！！",Toast.LENGTH_SHORT).show();
@@ -44,5 +41,4 @@ public class WifiConnectActivity extends WifiActivity {
     public void onConnectWifiFail(String failMsg) {
         Toast.makeText(this,failMsg,Toast.LENGTH_SHORT).show();
     }
-
 }

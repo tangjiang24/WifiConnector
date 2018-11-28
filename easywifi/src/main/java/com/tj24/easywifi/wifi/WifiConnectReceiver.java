@@ -17,7 +17,6 @@ public class WifiConnectReceiver extends BroadcastReceiver{
     boolean isFirst = true;
     private onWifiConnectListner mListner;
     public WifiConnectReceiver() {
-
     }
 
     @Override
