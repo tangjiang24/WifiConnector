@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tj24.easywifi.wifi.WifiActivity;
+import com.tj24.easywifi.wifi.WifiConnector;
 import com.tj24.easywifi.wifi.WifiUtil;
 
 public class WifiConnectActivity extends WifiActivity {
@@ -15,7 +16,7 @@ public class WifiConnectActivity extends WifiActivity {
     EditText etSsid;
     EditText etPwd;
     Button btnConnect;
-
+    WifiConnector connector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,21 @@ public class WifiConnectActivity extends WifiActivity {
             public void onClick(View v) {
                 ssid = etSsid.getText().toString();
                 pwd = etPwd.getText().toString();
-                connectWifi(ssid,pwd, WifiUtil.TYPE_WPA);
+
+//                connectWifi(ssid,pwd, WifiUtil.TYPE_WPA);
+
+                connector = new WifiConnector(WifiConnectActivity.this);
+                connector.connectWifi(ssid, pwd, WifiUtil.TYPE_WPA, new WifiConnector.WifiConnectCallBack() {
+                    @Override
+                    public void onConnectSucess() {
+                        Toast.makeText(WifiConnectActivity.this,"连接成功！！",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onConnectFail(String msg) {
+                        Toast.makeText(WifiConnectActivity.this,msg,Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

@@ -110,7 +110,11 @@ public class WifiUtil {
     public String getWifiInfo() {
         return (mWifiInfo == null) ? "NULL" : mWifiInfo.toString();
     }
-    // 得到WifiInfo的所有信息包
+
+    /**
+     *  得到WifiInfo的所有信息包 8.0必须要开启gps定位
+     * @return
+     */
     public String getSSID() {
         return (mWifiInfo == null) ? "NULL" : mWifiInfo.getSSID();
     }
@@ -254,8 +258,7 @@ public class WifiUtil {
     }
 
     public  boolean isWiFiConnected(){
-        ConnectivityManager connectManager =
-                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if(networkInfo.isConnected()){
             return true;
