@@ -1,83 +1,98 @@
-#  WifiConnector
+WifiConnector
 
-[![](https://jitpack.io/v/tangjiang24/WifiConnector.svg)](https://jitpack.io/#tangjiang24/WifiConnector)  
+  
 
 一个快速连接WiFi功能的库。
 
 目前支持的功能有：
 
 - 给定WiFi名称，连接无密码的网络
-
 - 给定WiFi名称 和密码，连接网络 （需指定密码类型 wpa 或者web ）
 
-## 截图
+截图
 
-![](https://github.com/tangjiang24/WifiConnector/blob/master/pic/1.jpg)
 
-##   用法
 
-####   step1
+用法
 
-在根`build.gradle`中添加：
+step1
 
-```
-allprojects {
-    repositories {
-        maven { url "https://jitpack.io" }
+在根build.gradle中添加：
+
+    allprojects {
+        repositories {
+            maven { url "https://jitpack.io" }
+        }
     }
-}
-```
 
-在使用的模块`build.gradle`中添加：
+在使用的模块build.gradle中添加：
 
-```
-dependencies {
-    implementation 'com.github.tangjiang24:WifiConnector:Tag'
-}
-```
+    dependencies {
+        implementation 'com.github.tangjiang24:WifiConnector:Tag'
+    }
 
-(请替换 Tag 为最新的版本号: [![](https://jitpack.io/v/tangjiang24/WifiConnector.svg)](https://jitpack.io/#tangjiang24/WifiConnector))
+(请替换 Tag 为最新的版本号: )
 
-####   Step2
+Step2
 
-将需要连接的activity继承 库中的  WifiActivity ：
+分两种方法：
 
-```
-public class WifiConnectActivity extends WifiActivity{}
-```
+第一种：
 
-#### Step3
+1.将需要连接的activity继承 库中的  WifiActivity ：
 
-直接调用父类中的 connectWifi(String ssid, String pwd, int type) 方法：
+    public class WifiConnectActivity extends WifiActivity{}
 
-```
- connectWifi(String ssid,String pwd,int type)；
-```
+2.直接调用父类中的 connectWifi(String ssid, String pwd, int type) 方法：
 
-其中ssid为 WiFi名称，pwd 为WiFi密码 ，type为密码三种类型之一。 
+     connectWifi(String ssid,String pwd,int type)；
+
+3.重写连接失败成功的抽象方法即可：
+
+     @Override
+        public void onConnectWifiSucess() {
+            ToastUtil.showShortToast(this,"连接成功！！");
+        }
+    
+        @Override
+        public void onConnectWifiFail(String failMsg) {
+            ToastUtil.showShortToast(this,failMsg);
+        }
+
+第二种：
+
+1.构建WifiConnector对象
+
+    WifiConnector connector = new WifiConnector(context);
+
+2.调用其connectWifi () 方法，并在回调中写成功或者失败后的逻辑
+
+    connector.connectWifi(ssid, pwd, WifiUtil.TYPE_WPA, new WifiConnector.WifiConnectCallBack() {
+        @Override
+        public void onConnectSucess() {
+            Toast.makeText(WifiConnectActivity.this,"连接成功！！",Toast.LENGTH_SHORT).show();
+        }
+    
+        @Override
+        public void onConnectFail(String msg) {
+            Toast.makeText(WifiConnectActivity.this,msg,Toast.LENGTH_SHORT).show();
+        }
+    });
+
+参数说明：
+
+          参数名        	        类型         	  意义   
+         ssid        	      String       	WiFi名称 
+          pwd        	      String       	WiFi 密码
+         type        	        int        	 密码类型  
+  wifiConnectCallBack	WifiConnectCallBack	 连接回调  
 
 三种密码类型：
 
-1.  WifiUtil.TYPE_NO_PWD（无密码）
-2.  WifiUtil.TYPE_WEB  (WEB)
-3.  WifiUtil.TYPE_WPA（WPA）
+1. WifiUtil.TYPE_NO_PWD（无密码）
+2. WifiUtil.TYPE_WEB  (WEB)
+3. WifiUtil.TYPE_WPA（WPA）
 
-#### Step4
+注意：由于Java的单继承性，第一种方法有很大的局限，建议使用第二种方法。
 
-重写连接失败成功的抽象方法即可：
-
-```
- @Override
-    public void onConnectWifiSucess() {
-        ToastUtil.showShortToast(this,"连接成功！！");
-    }
-
-    @Override
-    public void onConnectWifiFail(String failMsg) {
-        ToastUtil.showShortToast(this,failMsg);
-    }
-```
-
-## 注意：由于Java的但继承性，目前通过继承的方法有很大的局限。以后待改进。
-
-# 欢迎star！
+欢迎star！ 我的博客:tangjiang24.github.io
