@@ -111,4 +111,4 @@ connector.connectWifi(ssid, pwd, WifiUtil.TYPE_WPA, new WifiConnector.WifiConnec
 
 ## 注意：由于Java的单继承性，第一种方法有很大的局限，建议使用第二种方法。
 
-## 欢迎star！ [tangjiang24](https://blog.csdn.net/m0_37103968/article/details/78778090)
+## 欢迎star！ 
